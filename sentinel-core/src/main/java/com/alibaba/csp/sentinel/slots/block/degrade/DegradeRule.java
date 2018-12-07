@@ -173,12 +173,14 @@ public class DegradeRule extends AbstractRule {
 
         if (grade == RuleConstant.DEGRADE_GRADE_RT) {
             double rt = clusterNode.avgRt();
+            //如果当前rt小于限定值，则置passCount =0,重新计数
             if (rt < this.count) {
                 passCount.set(0);
                 return true;
             }
 
-            // Sentinel will degrade the service only if count exceeds.
+            // Sentinel will degrade the service only if count exceeds
+            //连续的RT_MAX_EXCEED_N次响应平均时长都都count
             if (passCount.incrementAndGet() < RT_MAX_EXCEED_N) {
                 return true;
             }

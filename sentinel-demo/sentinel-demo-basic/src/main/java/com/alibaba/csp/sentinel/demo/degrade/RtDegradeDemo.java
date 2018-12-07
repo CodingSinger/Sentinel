@@ -83,7 +83,7 @@ public class RtDegradeDemo {
     private static AtomicInteger total = new AtomicInteger();
 
     private static volatile boolean stop = false;
-    private static final int threadCount = 100;
+    private static final int threadCount = 1;
     private static int seconds = 60 + 40;
 
     public static void main(String[] args) throws Exception {

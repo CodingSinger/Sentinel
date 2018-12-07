@@ -183,15 +183,27 @@ public class AsyncEntryDemo {
         ContextUtil.enter("async-context", "originA");
         Entry entry = null;
         try {
-            entry = SphU.entry("test-top");
+            entry = SphU.entry("test-another-asyn");
             System.out.println("Do something...");
-            service.doAsyncThenSync();
+//            service.doAsyncThenSync();
         } catch (BlockException ex) {
             // Request blocked, handle the exception.
             ex.printStackTrace();
         } finally {
             if (entry != null) {
-                entry.exit();
+//                entry.exit();
+                Entry finalEntry = entry;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        finalEntry.exit();
+                    }
+                }).start();
             }
             ContextUtil.exit();
         }
